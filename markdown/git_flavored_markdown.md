@@ -179,15 +179,18 @@ Use keywords to link an issue and pull request or to mark an issue or pull reque
 
 ## Work with saved replies
 ### About saved replies
+You can use a saved reply to respond to an issue or pull request.
 
-### Creating a saved reply
-
-### Editing a saved reply
-### Deleting a saved reply
-### Using saved replies
+暂时用不到。
 
 
 ## Share content with gists
+
 ### Creating gits
+
+You can create two kinds of gists: public and secret. Create a public gist if you're ready to share your ideas with the world or a secret gist if you're not.
+
+
 ### Forking and cloning gists
-### Saving gists with stars
+Gists are actually Git repositories, which means that you can fork or clone any gist, even if you aren't the original author. You can also view a gist's full commit history, including diffs.
+
