@@ -48,6 +48,156 @@
 |                                          |                                           |                                                                                                       |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |     |
 |              Miscellaneous               |               git cat-file                |                                      git cat-file -p <commit_id>                                      |                                                                                                                                                                                                                                                                                                 Inspect a commit                                                                                                                                                                                                                                                                                                  |     |
 
+
+# Pushing commits to a remote repository
+## `git push`
+Use `git push` to push commits made on your local branch to a remote repository.
+
+- `git push`: sends all matching branches that have the same names as remote branches.
+- `git push REMOTE-NAME BRANCH-NAME`: you usually run `git push origin main` to push your local changes to your online repository.
+- `git push REMOTE-NAME LOCAL-BRANCH-NAME:REMOTE-BRANCH-NAME`: Renaming branches
+- `git push REMOTE-NAME TAG-NAME`: push a single tag
+- `git push REMOTE-NAME --tags`: push all your tags
+- `git push REMOTE-NAME :BRANCH-NAME`: delet a remote branch or tag. Resemble the same steps in Renaming branches.
+
+## `git remote`
+When you clone a repository you own, you provide it with a remote URL that tells Git where to fetch and push updates. If you want to collaborate with the original repository, you'd add a new remote URL, typically called `upstream`, to your local Git clone:
+
+```
+git remote add upstream THEIR_REMOTE_URL
+```
+
+Now, you can fetch updates and branches from their fork:
+
+```
+git fetch upstream
+# Grab the upstream remote's branches
+> remote: Counting objects: 75, done.
+> remote: Compressing objects: 100% (53/53), done.
+> remote: Total 62 (delta 27), reused 44 (delta 9)
+> Unpacking objects: 100% (62/62), done.
+> From https://github.com/OCTOCAT/REPO
+>  * [new branch]      main     -> upstream/main
+```
+When you're done making local changes, you can push your local branch to GitHub and initiate a pull request.
+
+# Getting changes from a remote repository
+
+Options for getting changes
+- `clone` and `fetch` download remote code from a repository's remote URL to your local computer
+- `merge` is used to merge different people's work together with yours
+- `pull` is a combination of `fetch` and `merge`.
+
+## Cloning a repository
+
+```
+$ git clone https://github.com/USERNAME/REPOSITORY.git
+# Clones a repository to your computer
+```
+
+When you run `git clone`, the following actions occur:
+
+- A new folder called `repo` is made
+- It is initialized as a Git repository
+- A remote named `origin` is created, pointing to the URL you cloned from
+- All of the repository's files and commits are downloaded there
+- The default branch is checked out
+
+For every branch `foo` in the remote repository, a corresponding remote-tracking branch `refs/remotes/origin/foo` is created in your local repository. You can usually abbreviate such remote-tracking branch names to `origin/foo`.
+
+## Fetching changes from a remote repository
+Fetching from a repository grabs all the new remote-tracking branches and tags **without** merging those changes into your own branches.
+
+## Merging changes into your local branch
+Typically, you'd merge a remote-tracking branch (i.e., a branch fetched from a remote repository) with your local branch:
+
+```
+$ git merge REMOTE-NAME/BRANCH-NAME
+# Merges updates made online with your local work
+```
+
+## Pulling changes from a remote repository
+`git pull` is a convenient shortcut for completing both `git fetch` and `git merge` in the same command:
+
+
+```
+$ git pull REMOTE-NAME BRANCH-NAME
+# Grabs online updates and merges them with your local work
+```
+
+## Dealing with non-fast-forward errors
+Sometimes, Git can't make your change to a remote repository without losing commits. When this happens, your push is refused.
+
+If another person has pushed to the same branch as you, Git won't be able to push your changes:
+
+```
+$ git push origin main
+> To https://github.com/USERNAME/REPOSITORY.git
+>  ! [rejected]        main -> main (non-fast-forward)
+> error: failed to push some refs to 'https://github.com/USERNAME/REPOSITORY.git'
+> To prevent you from losing history, non-fast-forward updates were rejected
+> Merge the remote changes (e.g. 'git pull') before pushing again.  See the
+> 'Note about fast-forwards' section of 'git push --help' for details.
+```
+
+You can fix this by fetching and merging the changes made on the remote branch with the changes that you have made locally:
+
+1. `$ git fetch origin`
+  - Contacts the remote repository referenced by origin.
+  - Downloads objects and refs (branches, tags, etc.) from the remote repository that do not exist in your local repository.
+  - Updates your local references (such as remote-tracking branches) to reflect the state of the remote repository.
+3. `$ git merge origin YOUR_BRANCH_NAME` : 
+  - tells Git to merge the changes from a branch named YOUR_BRANCH_NAME on the remote repository (origin) into the branch you're currently on in your local repository. 
+  - This is useful for updating your local branch with changes made in the remote repository or integrating work done in parallel by collaborators into your branch.
+
+
+Or, you can simply use `git pull` to perform both commands at once:
+```
+$ git pull origin YOUR_BRANCH_NAME
+# Grabs online updates and merges them with your local work
+```
+
+## Splitting a subfolder out into a new repository
+You can turn a folder within a Git repository into a brand new repository.
+
+暂时用不到，以后再看。
+
+## About Git subtree merges
+If you need to manage multiple projects within a single repository, you can use a subtree merge to handle all the references.
+
+暂时用不到，以后再看。
+
+
+## About Git rebase
+The git rebase command allows you to easily change a series of commits, modifying the history of your repository. You can reorder, edit, or squash commits together.
+
+Assume the following history exists and the current branch is "topic":
+
+```
+          A---B---C topic
+         /
+    D---E---F---G master
+```
+
+From this point, the result of either of the following commands:
+
+```
+git rebase master
+git rebase master topic # === git checkout topic && git rebase master
+```
+
+would be:
+
+```
+                  A'--B'--C' topic
+                 /
+    D---E---F---G master
+```
+
+
+## Using Git rebase on the command line
+Here's a short tutorial on using git rebase on the command line.
+
 # About Git
 ## Example: Contribute to an existing repository
 
